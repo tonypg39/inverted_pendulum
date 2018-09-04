@@ -11,3 +11,45 @@ body{
 .canvas-row{
     margin-top: 20px;
 }
+#start_btn{
+    margin-left: 58px;
+    background-color:rgb(37, 15, 235);
+}
+#input_force{
+    margin-left:25px;
+}
+#input_theta{
+    margin-left: 20px;
+}
+#Fx_label{
+    size:  40px;
+    text-decoration-style: dashed;
+    font-size: 18px;
+    color:white;
+    margin-left: 20px;
+}
+#theta_label{
+    size:  40px;
+    text-decoration-style: dashed;
+    font-size: 18px;
+    color:white;
+}
+#ms_label{
+    margin-left:10px;
+    size:  50px;
+    text-decoration-style: dashed;
+    font-size: 15px;
+    color:white;
+}
+#initial_theta{
+    margin-left:10px;
+    size:  50px;
+    text-decoration-style: dashed;
+    font-size: 15px;
+    color:white;
+}
+#system_state{
+    background-color:rgba(0,0,0,0.5);
+    border-style: ridge;
+    border-radius: 20px; 
+}

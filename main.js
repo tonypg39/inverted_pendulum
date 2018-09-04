@@ -2,7 +2,7 @@ var cv_width = 850;
 var cv_height = 500;
 
 //meters
-
+var start = false;
 var geo_params = {
     w_cart: 2.90, 
     h_cart: 1.50,  
@@ -28,5 +28,18 @@ var state = {
 
 function initialize() {
     id_draw = setInterval(draw,30);
+    if(start)
+        dynamical_loop();
+    
 }
+
+///////////////////Event asosiate with clicks/////////////
+$("#start_btn").click(
+    function (){
+        start = true;
+        update_state();
+        document.getElementById("start_btn").style;
+    }
+);
+////////////////////////////////////
 
