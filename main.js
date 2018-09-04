@@ -1,14 +1,14 @@
-cv_width = 850;
-cv_height = 500;
+var cv_width = 850;
+var cv_height = 500;
 
 
-geo_params = {
+var geo_params = {
     w_cart: 60,
     h_cart: 30,
     floor_height: 60
 }
 
-sim_params = {
+var sim_params = {
     L: 50,
     wheel_rad: 20,
     m_cart: 10,
@@ -16,7 +16,7 @@ sim_params = {
     dt: 30
 }
 
-state = {
+var state = {
     x: 0.0,
     x_dot : 0.0,
     theta : 0.0,
