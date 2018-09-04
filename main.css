@@ -12,8 +12,9 @@ body{
     margin-top: 20px;
 }
 #start_btn{
-    margin-left: 58px;
-    background-color:rgb(37, 15, 235);
+    margin-left: 58px;    
+    width: 100px;    
+    background-color: #116011;
 }
 #input_force{
     margin-left:25px;
@@ -33,6 +34,7 @@ body{
     text-decoration-style: dashed;
     font-size: 18px;
     color:white;
+    margin-left: 20px;
 }
 #ms_label{
     margin-left:10px;
@@ -52,4 +54,12 @@ body{
     background-color:rgba(0,0,0,0.5);
     border-style: ridge;
     border-radius: 20px; 
+}
+
+.display-state{
+    margin-top: 80px;
+    margin-left: 12px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #dddddd;
+
 }
