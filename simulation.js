@@ -35,4 +35,10 @@ function simulate(){
     state.theta = new_theta;
     state.theta_dot = new_theta_dot;
     state.beta_wheel = new_beta_wheel;
+    /////////////PUll it all in the HTML/////////////
+    $("theta").text(state.theta.toFixed(2))
+    $("theta_dot").text(state.theta_dot.toFixed(2))
+    $("x").text(state.x.toFixed(2))
+    $("x_dot").text(state.x_dot.toFixed(2))
+
 }
