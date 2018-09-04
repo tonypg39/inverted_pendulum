@@ -2,12 +2,13 @@ var cv_width = 850;
 var cv_height = 500;
 
 //meters
-var start = false;
+var running = false;
 var geo_params = {
     w_cart: 2.90, 
     h_cart: 1.00,  
     floor_height: 0.7, 
-    pix_per_m : 80
+    pix_per_m : 80,
+    offset_x : 300
 }
 
 var sim_params = {
@@ -28,18 +29,26 @@ var state = {
 
 function initialize() {
     id_draw = setInterval(draw,30);
-    if(start)
+    if(running)
         dynamical_loop();
-    
+                    
+    ///////////////////Event asosiate with clicks/////////////
+    $("#start_btn").click(
+        function () {            
+            if (running) {
+                $("#start_btn").css("background-color", "#116011");
+                $("#start_btn").html("Start");               
+                running = false;
+            }
+            else {
+                $("#start_btn").css("background-color", "#991111");
+                $("#start_btn").html("Stop");
+                running = true;
+            }
+
+            document.getElementById("start_btn").style;
+        }
+    );
 }
 
-///////////////////Event asosiate with clicks/////////////
-$("#start_btn").click(
-    function (){
-        start = true;
-        update_state();
-        document.getElementById("start_btn").style;
-    }
-);
-////////////////////////////////////
 
