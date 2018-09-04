@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Simulation of the Inverted pendulum cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./libs/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="./libs/jquery-3.3.1.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body onload="draw()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="header">
+                    Inverted Pendulum
+                </h1>
+            </div>
+        </div>
+        <div class="row canvas-row">
+            <div class="col-md-1">                
+            </div>
+            <div class="col-md-8">
+                <canvas id = "sim_environment" width="1050" height="500">                
+                Your browser does not support Canvas. Please, update it.
+            </canvas>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

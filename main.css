@@ -1,0 +1,13 @@
+body{
+    background-color: #001215;
+}
+
+#header{
+    background-color: black;
+    text-align: center;
+    color: #ccccaa;
+}
+
+.canvas-row{
+    margin-top: 20px;
+}
