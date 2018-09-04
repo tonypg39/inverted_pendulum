@@ -41,6 +41,7 @@ function draw_cart() {
     //ctx.fillRect(0,0,80,80);
     ctx.restore();
     draw_wheels();
+    draw_pendulum();
 }
 
 
@@ -83,4 +84,49 @@ function draw_wheel(xc,yc,wheel_radius,wheel_angle) {
     ctx.closePath();
 
     ctx.restore();
+}
+
+
+function draw_pendulum() {    
+    var x_pos = state.x * geo_params.pix_per_m + geo_params.offset_x;
+    var w_cart = geo_params.w_cart * geo_params.pix_per_m;
+    var h_cart = geo_params.h_cart * geo_params.pix_per_m;
+    var wheel_radius = sim_params.wheel_rad * geo_params.pix_per_m;
+    var fl_h = geo_params.floor_height * geo_params.pix_per_m;
+    var L = sim_params.L * geo_params.pix_per_m;
+    var theta = - (Math.PI / 180) * state.theta;
+    var pend_radius = geo_params.pend_radius * geo_params.pix_per_m;
+
+    // Draw base of the pendulum
+    var st_bx = x_pos - w_cart / 10;
+    var st_by = cv_height - fl_h - 2 * wheel_radius - 1.2* h_cart;
+    ctx.save();
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(st_bx, st_by, w_cart / 5, 0.2 * h_cart);
+    
+
+    // Draw the pendulum cord
+    var stp_x = x_pos, stp_y = st_by + 0.1 * h_cart;
+    var vec_x = L * Math.sin(theta);    
+    var vec_y = L * Math.cos(theta);
+    ctx.beginPath();
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 9;
+    ctx.moveTo(stp_x,stp_y);
+    ctx.lineTo(stp_x+vec_x,stp_y-vec_y);
+    ctx.stroke();
+    ctx.closePath();
+
+    // Draw the pendulum itself
+    var vecp_x =  (L + pend_radius) * Math.sin(theta);
+    var vecp_y = (L + pend_radius) * Math.cos(theta);
+    var cx = stp_x + vecp_x, cy = stp_y - vecp_y;
+
+    ctx.beginPath();
+    ctx.fillStyle = "#ffffff"; // Wheel primary color
+    ctx.arc(cx, cy, pend_radius, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.restore();    
 }
