@@ -5,7 +5,7 @@ var cv_height = 500;
 var start = false;
 var geo_params = {
     w_cart: 2.90, 
-    h_cart: 1.50,  
+    h_cart: 1.00,  
     floor_height: 0.7, 
     pix_per_m : 80
 }
