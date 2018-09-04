@@ -1,19 +1,21 @@
 var cv_width = 850;
 var cv_height = 500;
 
+//meters
 
 var geo_params = {
-    w_cart: 60,
-    h_cart: 30,
-    floor_height: 60
+    w_cart: 2.90, 
+    h_cart: 1.50,  
+    floor_height: 0.7, 
+    pix_per_m : 80
 }
 
 var sim_params = {
-    L: 50,
-    wheel_rad: 20,
-    m_cart: 10,
-    m_pend: 3,
-    dt: 30
+    L: 0.50, // m
+    wheel_rad: 0.30, // m
+    m_cart: 10, // kg
+    m_pend: 3,  // kg
+    dt: 30  // ms
 }
 
 var state = {
@@ -25,6 +27,6 @@ var state = {
 }
 
 function initialize() {
-    id_draw = setInterval(draw,sim_params.dt);
+    id_draw = setInterval(draw,30);
 }
 
