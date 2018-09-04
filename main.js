@@ -23,7 +23,8 @@ var state = {
     x_dot : 0.0,
     theta : 0.0,
     theta_dot : 0.0,
-    F: 0.0
+    F: 0.0,
+    beta_wheel:0.0
 }
 
 function initialize() {
@@ -36,9 +37,9 @@ function initialize() {
 ///////////////////Event asosiate with clicks/////////////
 $("#start_btn").click(
     function (){
-        start = true;
+        start = !start;
         update_state();
-        document.getElementById("start_btn").style;
+        document.getElementById("start_btn").style.color = red;
     }
 );
 ////////////////////////////////////

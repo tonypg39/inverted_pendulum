@@ -9,7 +9,8 @@ function simulate(){
     var last_theta = state.theta;
     var last_theta_dot = state.theta_dot;
     var last_x = state.x;
-    var last_s_dot = state.x_dot;
+    var last_x_dot = state.x_dot;
+    var last_beta_wheel = state.beta_wheel;
     ///////////getting simul_params/////////////
     m = sim_params.m_pend;
     M = sim_params.m_cart;
@@ -23,6 +24,7 @@ function simulate(){
     var new_x_dot = last_x_dot +(A*dt)/1000.0;
     var new_theta = last_theta + (last_theta_dot*dt)/1000.0;
     var new_theta_dot = last_theta_dot + (B*dt)/1000.0;
+    var new_beta_wheel = last_beta_wheel + ((last_x_dot/sim_params.wheel_rad)*dt)/1000;
     /////////////////////////////////////////////////////////
     if(Math.abs(new_theta) >=Math.PI/2.0){
         new_theta = (Math.PI/2.0)*Math.sign(new_theta);
@@ -32,4 +34,5 @@ function simulate(){
     state.x_dot = new_x_dot;
     state.theta = new_theta;
     state.theta_dot = new_theta_dot;
+    state.beta_wheel = new_beta_wheel;
 }
