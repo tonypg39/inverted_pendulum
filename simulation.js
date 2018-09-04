@@ -1,9 +1,10 @@
+
 function dynamical_loop(){
     window.setTimeout(dynamicalLoop,sim_params.dt);
-    upgrade_state();
+    simulate();
 }
 
-function upgrade_state(){
+function simulate(){
     /////////// saving the previous state//////////
     var last_theta = state.theta;
     var last_theta_dot = state.theta_dot;
@@ -14,7 +15,7 @@ function upgrade_state(){
     M = sim_params.m_cart;
     l = sim_params.L;
     dt = sim_params.dt;
-    g = 9.8 // gravity forces in m/s^2
+    g = 9.8; // gravity forces in m/s^2
     var A = (F + m*g*Math.sin(last_theta)*Math.cos(last_theta) - m*l*Math.pow(last_theta_dot,2)*Math.sin(last_theta))/(m+M - m*Math.pow(Math.cos(last_theta),2));
     var B = (m*F*Math.cos(last_theta) - m*l*Math.pow(last_theta_dot2)*Math.sin(last_theta)*Math.cos(last_theta)+m*g*Math.sin(last_theta)*(m+M))/(m*l - Math.pow(m,2)*Math.pow(Math.cos(last_theta),2));
     //////Solving the discrete differential equations Euler method/////////////
