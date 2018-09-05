@@ -5,6 +5,9 @@ function draw() {
     draw_background();
     draw_floor();
     draw_cart();
+    var imagen = new Image();
+    imagen.src = "motion.jpg";
+    ctx.drawImage(imagen, .65 * cv_width, 0.1 * cv_height,cv_width * 0.3 ,cv_height* 0.1); 
 }
 
 function draw_background() {
@@ -55,8 +58,8 @@ function draw_wheels() {
     first_x = x_pos - (1/3) *  w_cart;
     sec_x = x_pos + (1/3) * w_cart;
     y_w = cv_height - fl_h - wheel_radius;
-    draw_wheel(first_x, y_w, wheel_radius, 50);
-    draw_wheel(sec_x, y_w, wheel_radius, 50);
+    draw_wheel(first_x, y_w, wheel_radius, (state.beta_wheel*180)/Math.PI);
+    draw_wheel(sec_x, y_w, wheel_radius, (state.beta_wheel*180)/Math.PI);
 }
 
 function draw_wheel(xc,yc,wheel_radius,wheel_angle) {
@@ -94,7 +97,7 @@ function draw_pendulum() {
     var wheel_radius = sim_params.wheel_rad * geo_params.pix_per_m;
     var fl_h = geo_params.floor_height * geo_params.pix_per_m;
     var L = sim_params.L * geo_params.pix_per_m;
-    var theta = - (Math.PI / 180) * state.theta;
+    var theta = state.theta;
     var pend_radius = geo_params.pend_radius * geo_params.pix_per_m;
 
     // Draw base of the pendulum

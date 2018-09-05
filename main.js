@@ -13,17 +13,18 @@ var geo_params = {
 }
 
 var sim_params = {
-    L: 0.25, // m
+    L: 0.40, // m
     wheel_rad: 0.035, // m
-    m_cart: 4, // kg
-    m_pend: 1,  // kg
-    dt: 10  // ms
+    m_cart: 8.0, // kg
+    m_pend: 2.25,  // kg
+    dt: 10,  // ms
+    friction: 0.75
 }
 
 var state = {
-    x: 1.0,
+    x: 0.0,
     x_dot : 0.0,
-    theta : 20.0,
+    theta : 0.0,
     theta_dot : 0.0,
     F: 0.0,
     beta_wheel:0.0
@@ -49,16 +50,21 @@ function initialize() {
     );
 }
 function update_state(){
-    if(running){
+    if(running){ 
         state.F = parseFloat($("#input_force").val());
-        console.log(state.F);
+        if(isNaN(state.F))
+            state.F = 1.0;
     }
     else{
+        state.F = parseFloat($("#input_force").val());
+        if(isNaN(state.F))
+            state.F = 1.0; 
+        state.theta = ( (parseFloat($("#input_theta").val()))*Math.PI )/180.0;
+        if(isNaN(state.theta))
+            state.theta = 0.0;
         state.x = 0.0;
         state.x_dot = 0.0;
-        state.theta = ((parseFloat($("#input_theta").val()))*Math.PI)/180.0;
         state.theta_dot = 0.0;
-        state.F = parseFloat($("#input_force").val());
         state.beta_wheel = 0.0;
     }
     show_state();
