@@ -4,12 +4,12 @@ var cv_height = 500;
 //meters
 var running = false;
 var geo_params = {
-    w_cart: 0.45, 
-    h_cart: 0.12,  
-    floor_height: 0.25, 
-    pix_per_m : 500,
-    pend_radius: 0.05,
-    offset_x : 300
+    w_cart: 2.90, 
+    h_cart: 1.30,  
+    floor_height: 0.7, 
+    pix_per_m : 70,
+    pend_radius: 0.35,    
+    offset_x : 5.0
 }
 
 var sim_params = {
@@ -27,11 +27,11 @@ var state = {
     theta : 0.0,
     theta_dot : 0.0,
     F: 0.0,
-    beta_wheel:0.0
+    beta_wheel:(Math.PI / 180) * 30
 }
 
 function initialize() {
-    id_draw = setInterval(draw,30);
+    id_draw = setInterval(draw,5);
     dynamical_loop();           
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(
