@@ -8,6 +8,7 @@ var geo_params = {
     h_cart: 0.12,  
     floor_height: 0.25, 
     pix_per_m : 500,
+    pend_radius: 0.05,
     offset_x : 300
 }
 
@@ -20,9 +21,9 @@ var sim_params = {
 }
 
 var state = {
-    x: 0.0,
+    x: 1.0,
     x_dot : 0.0,
-    theta : 0.0,
+    theta : 20.0,
     theta_dot : 0.0,
     F: 0.0,
     beta_wheel:0.0
