@@ -1,11 +1,12 @@
 body{
-    background-color: #001215;
+    background-color: #002225;
 }
 
 #header{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.23);    
     text-align: center;
     color: #ccccaa;
+    border-radius: 20px;
 }
 
 .canvas-row{
@@ -27,7 +28,7 @@ body{
     text-decoration-style: dashed;
     font-size: 18px;
     color:white;
-    margin-left: 20px;
+    margin-left: 15px;
 }
 #theta_label{
     size:  40px;
@@ -51,7 +52,7 @@ body{
     color:white;
 }
 #system_state{
-    background-color:rgba(0,0,0,0.5);
+    background-color:rgba(0,0,0,0.23);
     border-style: ridge;
     border-radius: 20px; 
 }
