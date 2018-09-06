@@ -7,7 +7,7 @@ var geo_params = {
     w_cart: 0.5, 
     h_cart: 0.20,  
     floor_height: 0.5, 
-    pix_per_m : 280,
+    pix_per_m : 150,
     pend_radius: 0.08,    
     offset_x : 2.0,
     dt_draw : 5

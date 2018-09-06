@@ -42,7 +42,7 @@ function draw_marker() {
 function draw_markers() {
     var disp_nx = state.x - parseInt(state.x);
     var mky = cv_height - 0.5 * geo_params.floor_height * geo_params.pix_per_m;
-    var mkw = geo_params.floor_height * 0.05 * geo_params.pix_per_m;
+    var mkw = geo_params.floor_height * 0.02 * geo_params.pix_per_m;
 
     // Left direction markers
     var c_m = parseInt(state.x);
@@ -102,9 +102,10 @@ function obtain_x_px() {
     var lft_bnd = 0.8,
         rght_bnd = 0.2;
     if (x_proj_px > lft_bnd * cv_width && state.x_dot > 0) {
-        //geo_params.offset_x -= dx;
+        geo_params.offset_x += dx;
         return lft_bnd * cv_width;
     } else if (x_proj_px < rght_bnd * cv_width && state.x_dot < 0) {
+        geo_params.offset_x += dx;
         return rght_bnd * cv_width;
     }
     return x_proj_px;
@@ -142,7 +143,7 @@ function draw_wheel(xc, yc, wheel_radius, wheel_angle) {
         yp2 = -yp1;
 
     ctx.beginPath();
-    ctx.lineWidth = 5;
+    ctx.lineWidth = wheel_radius * .3;
     ctx.strokeStyle = "#661111"; // Wheel's stripe color
     var x1 = xp1 + xc,
         x2 = xp2 + xc;
@@ -183,7 +184,7 @@ function draw_pendulum() {
     var vec_y = L * Math.cos(theta);
     ctx.beginPath();
     ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 9;
+    ctx.lineWidth = L * .12;
     ctx.moveTo(stp_x, stp_y);
     ctx.lineTo(stp_x + vec_x, stp_y - vec_y);
     ctx.stroke();
