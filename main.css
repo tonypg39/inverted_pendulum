@@ -63,3 +63,11 @@ body{
 #model-equation{
     width: 30px;
 }
+
+.op-btn{
+    margin-left: 58px;
+    margin-top: 5px;
+    background-color: #021309;
+    color: white;
+    width: 100px;
+}

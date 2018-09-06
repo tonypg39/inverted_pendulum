@@ -37,7 +37,7 @@ var state = {
 
 function initialize() {
     id_draw = setInterval(draw,geo_params.dt_draw);
-    $("display-state").hide(15);
+    $(".sim-params").hide();
     dynamical_loop();           
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(
@@ -54,6 +54,8 @@ function initialize() {
             }
         }
     );
+    $("#adjust").click(adjustParameters);
+    $("#enter-adjust").click(enterNewParameters);
 }
 function update_state(){
     if(running){ 
@@ -85,3 +87,10 @@ function show_state(){
     $("#input_force").html((parseFloat(input_force).toFixed(1)));
 }
 
+function adjustParameters() {
+    $(".sim-params").show();
+}
+
+function enterNewParameters() {
+    $(".sim-params").hide();
+}
