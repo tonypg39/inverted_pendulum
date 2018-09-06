@@ -4,21 +4,22 @@ var cv_height = 500;
 //meters
 var running = false;
 var geo_params = {
-    w_cart: 2.90, 
-    h_cart: 1.30,  
-    floor_height: 0.7, 
-    pix_per_m : 70,
-    pend_radius: 0.35,    
-    offset_x : 5.0
+    w_cart: 0.5, 
+    h_cart: 0.20,  
+    floor_height: 0.5, 
+    pix_per_m : 280,
+    pend_radius: 0.08,    
+    offset_x : 2.0,
+    dt_draw : 5
 }
 
 var sim_params = {
-    L: 0.40, // m
-    wheel_rad: 0.035, // m
-    m_cart: 8.0, // kg
-    m_pend: 2.25,  // kg
+    L: 0.30, // m
+    wheel_rad: 0.075, // m
+    m_cart: 2.0, // kg
+    m_pend: 0.60,  // kg
     dt: 10,  // ms
-    friction: 0.75
+    friction: 0.9
 }
 
 var state = {
@@ -31,7 +32,7 @@ var state = {
 }
 
 function initialize() {
-    id_draw = setInterval(draw,5);
+    id_draw = setInterval(draw,geo_params.dt_draw);
     dynamical_loop();           
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(
@@ -66,6 +67,7 @@ function update_state(){
         state.x_dot = 0.0;
         state.theta_dot = 0.0;
         state.beta_wheel = 0.0;
+        geo_params.offset_x = 1.5;
     }
     show_state();
 }
