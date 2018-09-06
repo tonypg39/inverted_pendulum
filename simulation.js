@@ -1,15 +1,17 @@
 var input_force = 0.0;
+var control_source = "manual";
 
 function dynamical_loop(){
     window.setTimeout(dynamical_loop,sim_params.dt);
     update_state();
-    assistKey();
+    var temp = assistKey();
     if(running){
-        PID(0.0,2.0,0.8,0.5,10);
+        if(control_source == "pid")
+            input_force = PID(0.0,1.4,0.5,0.015,10);
+        //else if (control_source == "agent");
+        else if(control_source == "manual")
+            input_force = temp;
         simulate();
-    }
-    else{
-        reset_PID_values();
     }
 }
 function addNoise(k,sig = true,value){
@@ -41,7 +43,7 @@ function simulate(){
     var k = sim_params.ground_friction;
     var ft = sim_params.friction;
     var u = sim_params.wind_friction;
-    F = (F + -1.0*(k*l_x_d))+ addNoise(u,true,0.001);
+    F = (F + -1.0*(k*l_x_d));
      
     var numA1 = -1.0*m*g*Math.sin(l_theta)*Math.cos(l_theta);
     var numA2 = m*l*Math.pow(l_theta_d,2) *Math.sin(l_theta);
@@ -125,23 +127,23 @@ function assistKey(){
     var speed = 10.0;
     if(is_atendible()== false){
         var temp = input_force+sense*(speed*sim_params.dt)*0.01;
-        input_force = Math.min(Math.abs(temp),20.0)*Math.sign(temp);
+        return Math.min(Math.abs(temp),20.0)*Math.sign(temp);
     }
     else{
         if(Math.abs(input_force) <=0.0000001){
             sense = 0.0;
-            input_force = 0.0;
+            return 0.0;
         }
         else{
             if(input_force < 0.0)
                 var temp = input_force + (speed*sim_params.dt)*0.01;
             else
                 var temp = input_force - (speed*sim_params.dt)*0.01;
-            input_force = temp;
+            return temp;
         }
 
     }
-  $("#input_force").html((parseFloat(input_force).toFixed(1)));
+  
 }
 ////////////////////////////////////////////////
 var error = 0.0;
@@ -150,26 +152,28 @@ var last_error = 0.0;
 var u_signal = 0.0;
 
 function reset_PID_values(){
-    error = 0.0;
-    last_u_signal  = 0.0;
-    last_error = 0.0;
-    u_signal = 0.0;
+    ///////////theta control variables/////
+    error_theta = 0.0;
+    last_error_theta = 0.0;
+    u_signal_theta = 0.0;
+    last_u_signal_theta = 0.0;
+    ///////////position theta////////////
+    error_x = 0.0;
+    last_error_x = 0.0;
+    u_signal_x = 0.0;
+    last_u_signal_x = 0.0; 
+
 }
 /////////////////////////////////////////////////
-function PID(set_point,Kc =2.0,Kd = 0.0,Ki = 0.0,dt){
-    var theta = -1.0*state.theta;
-    set_point = (set_point*Math.PI)/180.0;
-    error = (set_point - theta);
-    console.log(theta);
-    var sign = Math.sign(error);
-    if(Math.abs(error)<=0.017){
-        u_signal = last_u_signal;
-        error = 0.0;
-    }
-    else{
-        u_signal = Kc*error + (Kd*(error - last_error)/dt)*1000 + Ki*(error)+last_u_signal;
-    }
+function PID(set_point_theta,set_point_x,Kc =2.0,Kd = 0.0,Ki = 0.0,dt){
+    var angle = -1.0*state.theta;
+    set_point_theta = (set_point_theta*Math.PI)/180.0;
+    //////////Getting Errors///////////
+    error_theta = (set_point_theta - angle);
+    //////////////Getting control signals////////////////
+    u_signal = Kc*error_theta + (Kd*(error_theta - last_error_theta)/dt)*1000 + Ki*(error_theta)+last_u_signal_theta;
+    ///////////////////Up
     last_error = error;
     last_u_signal = u_signal;
-    input_force = Math.min(40,Math.abs(u_signal))*Math.sign(u_signal);
+    return Math.min(25,Math.abs(u_signal))*Math.sign(u_signal);
     }

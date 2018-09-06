@@ -19,7 +19,7 @@ var sim_params = {
     m_cart: 2.0, // kg
     m_pend: 0.090,  // kg
     dt: 10,  // ms
-    friction: 1.9,
+    friction: 1.2,
     ground_friction: 4.8,
     time_up:0.00,
     best_score:0.00,
@@ -63,6 +63,8 @@ function update_state(){
         state.theta = ( (parseFloat($("#input_theta").val()))*Math.PI )/180.0;
         if(isNaN(state.theta))
             state.theta = 0.0;
+        input_force = 0.0;
+        reset_PID_values();
         state.F = input_force;
         state.x = 0.0;
         state.x_dot = 0.0;
@@ -80,5 +82,6 @@ function show_state(){
     $("#theta_dot").html(parseFloat(state.theta_dot).toFixed(2));
     $("#x").html(parseFloat(state.x).toFixed(2));
     $("#x_dot").html(parseFloat(state.x_dot).toFixed(2));
+    $("#input_force").html((parseFloat(input_force).toFixed(1)));
 }
 
