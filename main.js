@@ -6,7 +6,7 @@ var running = false;
 var geo_params = {
     w_cart: 0.43, 
     h_cart: 0.20,  
-    floor_height: 0.5, 
+    floor_height: 0.7, 
     pix_per_m : 170,
     pend_radius: 0.08,    
     offset_x : 2.0,
@@ -37,6 +37,7 @@ var state = {
 
 function initialize() {
     id_draw = setInterval(draw,geo_params.dt_draw);
+    $("display-state").hide(15);
     dynamical_loop();           
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(

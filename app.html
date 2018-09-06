@@ -35,32 +35,25 @@
                     <button id ="decrement" class="btn btn-primary" >&larr; </button>
                     <button id ="increment" class="btn btn-primary" >&rarr; </button>
                 </div>
-                <div class="form-group">
-                    <label> &theta; :</label>
-                    <input type = "text" class  = "from-control" id = "input_theta" size = "2" placeholder = "0.0">
-                    <label >degrees</label>
+                <div class="form-group sim-params">
+                     &theta; :
+                    <input type = "number" class  = "from-control sim-params" id = "input_theta" size = "2" placeholder = "0.0">
+                     °
                     <br>
-                    <label>Mc:</label>
-                    <input type = "text" class  = "from-control" id = "Mc_input" size = "2" placeholder = "0.0">
-                    <label>Kg</label>
+                    Mc:
+                    <input type = "number" class  = "from-control sim-params" id = "Mc_input" size = "2" placeholder = "0.0">
+                    Kg
                     <br>
-                    <label>mp:</label>
-                    <input type = "text" class  = "from-control" id = "input_theta" size = "2" placeholder = "0.0">
-                    <label>Kg</label>
+                    mp
+                    <input type = "number" class  = "from-control sim-params" id = "input_theta" max = "100"  placeholder = "0.0" width="10">
+                    Kg
                     <br>
-                    <label> :</label>
-                    <input type = "text" class  = "from-control" id = "input_theta" size = "2" placeholder = "0.0">
-                    <label id ="initial_theta">degrees</label>
-                    <br>
-                    <label id = "theta_label" > &theta; :</label>
-                    <input type = "text" class  = "from-control" id = "input_theta" size = "2" placeholder = "0.0">
-                    <label id ="initial_theta">degrees</label>
-                    <br>
-                    <label id = "theta_label" > &theta; :</label>
-                    <input type = "text" class  = "from-control" id = "input_theta" size = "2" placeholder = "0.0">
-                    <label id ="initial_theta">degrees</label>
-                    <button id = "start_btn" class = "btn btn-primary">Start</button>
+                    wf
+                    <input type = "number" class  = "from-control sim-params" id = "input_theta" size = "2" placeholder = "0.0">
+                     °
+                    <br><br>                    
                 </div>
+                <button id="start_btn" class="btn btn-primary">Start</button>
                 
                 <br>
                 <div class="form-group display-state">
