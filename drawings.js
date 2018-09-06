@@ -20,10 +20,10 @@ function check_boundaries() {
 
 function draw_background() {
     // Background color setting
-    ctx.fillStyle = '#999999';
+    ctx.fillStyle = '#cccccc';
     ctx.fillRect(0, 0, cv_width, cv_height);
     // Deliner setting
-    ctx.strokeStyle = '#aaaaaa'
+    ctx.strokeStyle = '#222222';
     ctx.strokeRect(0, 0, cv_width, cv_height);
 }
 
@@ -200,15 +200,16 @@ function draw_pendulum() {
     ctx.fill();
     ctx.closePath();
 
-    ctx.restore();    
+    ctx.restore();
 }
-function draw_text(){
-    ctx.font = "20px serif"
-    ctx.fillStyle = "#AF0025";
-    var texto = parseFloat(sim_params.time_up).toFixed(3);
-    ctx.fillText ("time up:"+texto , 0.80*cv_width, .1*cv_height);
-    ctx.font = "20px serif"
-    ctx.fillStyle = "#AF0025";
+
+function draw_text() {
+    ctx.font = "15px serif"
+    ctx.fillStyle = "#002225";
+    var text = parseFloat(sim_params.time_up).toFixed(3);
+    ctx.fillText("time up: " + text, 0.80 * cv_width, .1 * cv_height);
+    ctx.font = "15px serif"
+    ctx.fillStyle = "#002225";
     var score = parseFloat(sim_params.best_score).toFixed(3);
-    ctx.fillText ("best score:"+score , 0.80*cv_width, .15*cv_height);
+    ctx.fillText("best score: " + score, 0.80 * cv_width, .15 * cv_height);
 }
