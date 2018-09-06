@@ -81,3 +81,7 @@ body{
 .canvas-div{
     margin-left: 50px;
 }
+
+#model-equation{
+    width: 30px;
+}
