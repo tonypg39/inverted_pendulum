@@ -6,9 +6,7 @@ function draw() {
     draw_floor();
     draw_marker();
     draw_cart();
-    var imagen = new Image();
-    imagen.src = "motion.jpg";
-    ctx.drawImage(imagen, .65 * cv_width, 0.1 * cv_height,cv_width * 0.3 ,cv_height* 0.1); 
+    draw_text();
 }
 
 function draw_background() {
@@ -143,4 +141,14 @@ function draw_pendulum() {
     ctx.closePath();
 
     ctx.restore();    
+}
+function draw_text(){
+    ctx.font = "20px serif"
+    ctx.fillStyle = "#AF0025";
+    var texto = parseFloat(sim_params.time_up).toFixed(3);
+    ctx.fillText ("time up:"+texto , 0.80*cv_width, .1*cv_height);
+    ctx.font = "20px serif"
+    ctx.fillStyle = "#AF0025";
+    var score = parseFloat(sim_params.best_score).toFixed(3);
+    ctx.fillText ("best score:"+score , 0.80*cv_width, .15*cv_height);
 }

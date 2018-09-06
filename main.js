@@ -4,21 +4,25 @@ var cv_height = 500;
 //meters
 var running = false;
 var geo_params = {
-    w_cart: 2.90, 
-    h_cart: 1.30,  
+    w_cart: 0.50, 
+    h_cart: 0.20,  
     floor_height: 0.7, 
-    pix_per_m : 70,
-    pend_radius: 0.35,    
-    offset_x : 5.0
+    pix_per_m : 280,
+    pend_radius: 0.05,    
+    offset_x : 1.0
 }
 
 var sim_params = {
-    L: 0.40, // m
-    wheel_rad: 0.035, // m
-    m_cart: 8.0, // kg
-    m_pend: 2.25,  // kg
+    L: 0.45, // m
+    wheel_rad: 0.075, // m
+    m_cart: 2.0, // kg
+    m_pend: 0.600,  // kg
     dt: 10,  // ms
-    friction: 0.75
+    friction: 1.9,
+    ground_friction: 4.8,
+    time_up:0.00,
+    best_score:0.00,
+    wind_friction:0.1
 }
 
 var state = {
@@ -31,7 +35,7 @@ var state = {
 }
 
 function initialize() {
-    id_draw = setInterval(draw,5);
+    id_draw = setInterval(draw,20);
     dynamical_loop();           
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(
@@ -51,21 +55,18 @@ function initialize() {
 }
 function update_state(){
     if(running){ 
-        state.F = parseFloat($("#input_force").val());
-        if(isNaN(state.F))
-            state.F = 1.0;
+        state.F = quantity;
     }
-    else{
-        state.F = parseFloat($("#input_force").val());
-        if(isNaN(state.F))
-            state.F = 1.0; 
+    else{ 
         state.theta = ( (parseFloat($("#input_theta").val()))*Math.PI )/180.0;
         if(isNaN(state.theta))
             state.theta = 0.0;
+        state.F = quantity;
         state.x = 0.0;
         state.x_dot = 0.0;
         state.theta_dot = 0.0;
         state.beta_wheel = 0.0;
+        sim_params.time_up = 0.0;
     }
     show_state();
 }
