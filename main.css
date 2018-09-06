@@ -1,5 +1,6 @@
 body{
     background-color: #002225;
+    font-size: 12px;
 }
 
 #header{
@@ -43,15 +44,15 @@ body{
 }
 
 .display-state{
-    margin-top: 5px;
+    margin-top: 28px;
     margin-left: 12px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: serif;
     color: #dddddd;
 }
 #input_force{
     margin-left: 12px;
     margin-top: 20px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: serif;
     color: #dddddd;
 }
 

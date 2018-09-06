@@ -37,6 +37,7 @@ var state = {
 
 function initialize() {
     id_draw = setInterval(draw,geo_params.dt_draw);
+    $("display-state").hide(15);
     dynamical_loop();           
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(
