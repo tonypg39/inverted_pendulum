@@ -4,7 +4,7 @@ var cv_height = 500;
 //meters
 var running = false;
 var geo_params = {
-    w_cart: 0.5, 
+    w_cart: 0.43, 
     h_cart: 0.20,  
     floor_height: 0.5, 
     pix_per_m : 150,
@@ -15,7 +15,7 @@ var geo_params = {
 
 var sim_params = {
     L: 0.30, // m
-    wheel_rad: 0.075, // m
+    wheel_rad: 0.085, // m
     m_cart: 2.0, // kg
     m_pend: 0.60,  // kg
     dt: 10,  // ms

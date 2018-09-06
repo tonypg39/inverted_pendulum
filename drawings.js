@@ -101,11 +101,11 @@ function obtain_x_px() {
     var dx = state.x_dot * (geo_params.dt_draw / 1000);
     var lft_bnd = 0.8,
         rght_bnd = 0.2;
-    if (x_proj_px > lft_bnd * cv_width && state.x_dot > 0) {
-        geo_params.offset_x += dx;
+    if (x_proj_px > lft_bnd * cv_width) { // && state.x_dot > 0) {
+        //geo_params.offset_x += dx;
         return lft_bnd * cv_width;
-    } else if (x_proj_px < rght_bnd * cv_width && state.x_dot < 0) {
-        geo_params.offset_x += dx;
+    } else if (x_proj_px < rght_bnd * cv_width) { //&& state.x_dot < 0) {
+        //geo_params.offset_x += dx;
         return rght_bnd * cv_width;
     }
     return x_proj_px;
