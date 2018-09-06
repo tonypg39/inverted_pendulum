@@ -1,10 +1,16 @@
+var input_force = 0.0;
 
 function dynamical_loop(){
     window.setTimeout(dynamical_loop,sim_params.dt);
-    if(running)
-        simulate();
     update_state();
     assistKey();
+    if(running){
+        PID(0.0,2.0,0.8,0.5,10);
+        simulate();
+    }
+    else{
+        reset_PID_values();
+    }
 }
 function addNoise(k,sig = true,value){
     var sentido = 1.0;
@@ -68,7 +74,6 @@ function simulate(){
 
 }
 var sense = 0;
-var quantity = 0.0;
 var keys =[false,false,false,false];
 var base = 37; 
 
@@ -102,11 +107,13 @@ const KeyDown = (event) => {
             sense = -1;
             keys[event.which-base] = true; 
             $("#decrement").css("background-color", "#FC1201");
+            running = true;
         }
         else if(event.which == 39){
             sense = 1;
             keys[event.which-base] = true;
             $("#increment").css("background-color", "#FC1201");
+            running = true;
         }
         else{
             sense = 0;
@@ -117,23 +124,52 @@ const KeyDown = (event) => {
 function assistKey(){
     var speed = 10.0;
     if(is_atendible()== false){
-        var temp = quantity+sense*(speed*sim_params.dt)*0.01;
-        quantity = Math.min(Math.abs(temp),20.0)*Math.sign(temp);
+        var temp = input_force+sense*(speed*sim_params.dt)*0.01;
+        input_force = Math.min(Math.abs(temp),20.0)*Math.sign(temp);
     }
     else{
-        if(Math.abs(quantity) <=0.0000001){
+        if(Math.abs(input_force) <=0.0000001){
             sense = 0.0;
-            quantity = 0.0;
+            input_force = 0.0;
         }
         else{
-            if(quantity < 0.0)
-                var temp = quantity + (speed*sim_params.dt)*0.01;
+            if(input_force < 0.0)
+                var temp = input_force + (speed*sim_params.dt)*0.01;
             else
-                var temp = quantity - (speed*sim_params.dt)*0.01;
-            quantity = temp;
+                var temp = input_force - (speed*sim_params.dt)*0.01;
+            input_force = temp;
         }
 
     }
-  $("#input_force").html((parseFloat(quantity).toFixed(1)));
+  $("#input_force").html((parseFloat(input_force).toFixed(1)));
 }
+////////////////////////////////////////////////
+var error = 0.0;
+var last_u_signal  = 0.0;
+var last_error = 0.0;
+var u_signal = 0.0;
 
+function reset_PID_values(){
+    error = 0.0;
+    last_u_signal  = 0.0;
+    last_error = 0.0;
+    u_signal = 0.0;
+}
+/////////////////////////////////////////////////
+function PID(set_point,Kc =2.0,Kd = 0.0,Ki = 0.0,dt){
+    var theta = -1.0*state.theta;
+    set_point = (set_point*Math.PI)/180.0;
+    error = (set_point - theta);
+    console.log(theta);
+    var sign = Math.sign(error);
+    if(Math.abs(error)<=0.017){
+        u_signal = last_u_signal;
+        error = 0.0;
+    }
+    else{
+        u_signal = Kc*error + (Kd*(error - last_error)/dt)*1000 + Ki*(error)+last_u_signal;
+    }
+    last_error = error;
+    last_u_signal = u_signal;
+    input_force = Math.min(40,Math.abs(u_signal))*Math.sign(u_signal);
+    }

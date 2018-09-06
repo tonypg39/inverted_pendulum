@@ -56,13 +56,13 @@ function initialize() {
 }
 function update_state(){
     if(running){ 
-        state.F = quantity;
+        state.F = input_force;
     }
     else{ 
         state.theta = ( (parseFloat($("#input_theta").val()))*Math.PI )/180.0;
         if(isNaN(state.theta))
             state.theta = 0.0;
-        state.F = quantity;
+        state.F = input_force;
         state.x = 0.0;
         state.x_dot = 0.0;
         state.theta_dot = 0.0;
