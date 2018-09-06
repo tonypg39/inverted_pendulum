@@ -29,36 +29,12 @@ body{
     font-size: 15px;
 }
 
-#input_theta{
-    margin-left: 20px;
-}
-#Fx_label{
-    size:  10px;
-    text-decoration-style: dashed;
-    font-size: 18px;
-    color:white;
-    margin-left: 15px;
-}
-#theta_label{
+.form-group{
     size:  40px;
     text-decoration-style: dashed;
     font-size: 18px;
     color:white;
     margin-left: 20px;
-}
-#ms_label{
-    margin-left:10px;
-    size:  50px;
-    text-decoration-style: dashed;
-    font-size: 15px;
-    color:white;
-}
-#initial_theta{
-    margin-left:10px;
-    size:  50px;
-    text-decoration-style: dashed;
-    font-size: 15px;
-    color:white;
 }
 #system_state{
     background-color:rgba(0,0,0,0.23);
@@ -67,13 +43,14 @@ body{
 }
 
 .display-state{
-    margin-top: 40px;
+    margin-top: 5px;
     margin-left: 12px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #dddddd;
 }
 #input_force{
     margin-left: 12px;
+    margin-top: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #dddddd;
 }
