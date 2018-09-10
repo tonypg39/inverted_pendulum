@@ -24,6 +24,7 @@ var sim_params = {
     time_up:0.00,
     best_score:0.00,
     wind_friction:0.5,
+    vel_setpoint:0.0,
     max_force:20.0
 }
 
@@ -52,8 +53,11 @@ function update_state(){
     }
     else{ 
         state.theta = ( (parseFloat($("#input_theta").val()))*Math.PI )/180.0;
+        sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
         if(isNaN(state.theta))
             state.theta = 0.0;
+        if(isNaN(sim_params.vel_setpoint))
+            sim_params.vel_setpoint = 0.0;
         input_force = 0.0;
         reset_PID_values();
         state.F = input_force+key_force;
@@ -85,17 +89,17 @@ function enterNewParameters() {
 }
 function select_modes(){
     if(control_source == "manual"){
-        $("#mode").css("background-color", "#A21101");
+        $("#mode").css("background-color", "#222222");
         $("#mode").html("pid");
         control_source = "pid";
     }
     else if(control_source =="pid"){
-        $("#mode").css("background-color", "#120011");
+        $("#mode").css("background-color", "#121212");
         $("#mode").html("agent");
         control_source = "agent";
     }
     else{
-        $("#mode").css("background-color", "#1160FF");
+        $("#mode").css("background-color", "#888888");
         $("#mode").html("manual");
         control_source = "manual";
     }

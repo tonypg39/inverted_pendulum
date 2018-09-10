@@ -45,6 +45,12 @@ function draw_markers() {
     // Left direction markers
     var c_m = parseInt(state.x);
     var c_px = obtain_x_px() - disp_nx * geo_params.pix_per_m;
+    //draw the numbers
+    ctx.font = "15px serif";
+    ctx.fillStyle = "#aa99aa";
+    var t_n = c_m.toFixed(0);
+    ctx.fillText(t_n, c_px, mky + 10
+        * mkw);
     while (c_px > 0) {
         if (c_m == 0) {
             ctx.fillStyle = "#aa2222";
@@ -53,15 +59,38 @@ function draw_markers() {
         ctx.fillRect(c_px, mky, mkw, mkw * 4);
         c_px -= geo_params.pix_per_m;
         c_m -= 1;
+
+        //draw the numbers
+        ctx.font = "15px serif";
+        ctx.fillStyle = "#aa99aa";
+        var t_n = c_m.toFixed(0);
+        ctx.fillText(t_n, c_px, mky + 10 * mkw);
     }
 
     // Right direction markers    
     c_m = parseInt(state.x) + 1;
     disp_nx = c_m - state.x;
+    //draw the numbers
+    ctx.font = "15px serif";
+    ctx.fillStyle = "#aa99aa";
+    var t_n = c_m.toFixed(0);
+    ctx.fillText(t_n, c_px, mky + 10
+        * mkw);
+
     c_px = obtain_x_px() + disp_nx * geo_params.pix_per_m;
     while (c_px < cv_width) {
-        ctx.fillStyle = "#aa99aa";
+        if (c_m == 0) {
+            ctx.fillStyle = "#aa2222";
+        } else
+            ctx.fillStyle = "#aa99aa";
         ctx.fillRect(c_px, mky, mkw, mkw * 4);
+
+        //draw the numbers
+        ctx.font = "15px serif";
+        ctx.fillStyle = "#aa99aa";
+        var t_n = c_m.toFixed(0);
+        ctx.fillText(t_n, c_px, mky + 10
+             * mkw);
         c_px += geo_params.pix_per_m;
         c_m += 1;
     }

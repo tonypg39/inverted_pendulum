@@ -14,7 +14,7 @@ body{
     margin-top: 20px;
 }
 #start_btn{
-    margin-left: 58px;    
+    margin-left: 20px;    
     width: 100px;    
     background-color: #116011;
 }
@@ -52,6 +52,7 @@ body{
     margin-top: 28px;
     margin-left: 12px;
     font-family: serif;
+    font-size: 15px;
     color: #dddddd;
 }
 #input_force{
@@ -65,15 +66,17 @@ body{
     margin-left: 50px;
 }
 
-#model-equation{
-    width: 30px;
-}
 #enter-adjust{
     margin-left: 38px;
+    color: #222299;
 }
 .op-btn{
     margin-left: 58px;
     margin-top: 5px;    
     color: white;
     width: 100px;
+}
+
+#mode{
+    background-color: #888888;
 }

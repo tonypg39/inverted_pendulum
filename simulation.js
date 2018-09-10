@@ -7,8 +7,10 @@ function dynamical_loop(){
     update_state();
     key_force = assistKey();
     if(running){
-        if(control_source == "pid")
-            input_force =  PID_theta(PID_x_dot(0.0,10),10);
+        if(control_source == "pid"){
+            input_force =  PID_theta(PID_x_dot(sim_params.vel_setpoint,10),10);
+            console.log(sim_params.vel_setpoint);
+        }
         //else if (control_source == "agent");
         else if(control_source == "manual"){
         }
@@ -92,12 +94,12 @@ function is_atendible(){
 }
 
 const KeyUp = (event) => {
-    if (event.which == 37 && keys[event.which-base]) {
+    if ((event.which == 37) && keys[event.which-base]) {
         keys[event.which-base] = false;
         sense = 0;
         $("#decrement").css("background-color","#1590FF");
     }
-    else if(event.which == 39 && keys[event.which-base]){
+    else if((event.which == 39) && keys[event.which-base]){
         keys[event.which-base] = false;
         sense = 0;
         $("#increment").css("background-color","#1590FF");
@@ -108,17 +110,18 @@ const KeyUp = (event) => {
 }
 
 const KeyDown = (event) => {
+    //alert(event.which);    
     if(is_atendible()){
         if (event.which == 37) {
             sense = -1;
             keys[event.which-base] = true; 
-            $("#decrement").css("background-color", "#FC1201");
+            $("#decrement").css("background-color", "#CC1201");
             running = true;
         }
-        else if(event.which == 39){
+        else if (event.which == 39){
             sense = 1;
             keys[event.which-base] = true;
-            $("#increment").css("background-color", "#FC1201");
+            $("#increment").css("background-color", "#CC1201");
             running = true;
         }
         else{
@@ -138,7 +141,7 @@ function assistKey(){
         return Math.min(Math.abs(temp),sim_params.max_force)*Math.sign(temp);
     }
     else{
-        if(Math.abs(key_force) <=0.0000001){
+        if(Math.abs(key_force) <= 0.0000001){
             sense = 0.0;
             return 0.0;
         }
@@ -149,7 +152,6 @@ function assistKey(){
                 var temp = key_force - (speed*sim_params.dt)*0.01;
             return temp;
         }
-
     }
   
 }
