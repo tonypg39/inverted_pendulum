@@ -1,16 +1,20 @@
 var input_force = 0.0;
+var key_force = 0.0;
 var control_source = "manual";
 
 function dynamical_loop(){
     window.setTimeout(dynamical_loop,sim_params.dt);
     update_state();
-    var temp = assistKey();
+    key_force = assistKey();
     if(running){
         if(control_source == "pid")
-            input_force = PID(0.0,1.4,0.5,0.015,10);
+            input_force =  PID_theta(PID_x_dot(0.0,10),10);
         //else if (control_source == "agent");
-        else if(control_source == "manual")
-            input_force = temp;
+        else if(control_source == "manual"){
+        }
+        else{
+            input_force = 0.0;
+        }
         simulate();
     }
 }
@@ -43,7 +47,7 @@ function simulate(){
     var k = sim_params.ground_friction;
     var ft = sim_params.friction;
     var u = sim_params.wind_friction;
-    F = (F + -1.0*(k*l_x_d));
+    F = (F + -1.0*(k*l_x_d))//+addNoise(sim_params.wind_friction,true,0.75);
      
     var numA1 = -1.0*m*g*Math.sin(l_theta)*Math.cos(l_theta);
     var numA2 = m*l*Math.pow(l_theta_d,2) *Math.sin(l_theta);
@@ -121,24 +125,28 @@ const KeyDown = (event) => {
             sense = 0;
         }
     }
+    if(event.which == 16)
+        select_modes();
+    if(event.which == 32)
+        start_stop();
 }
 
 function assistKey(){
     var speed = 10.0;
     if(is_atendible()== false){
-        var temp = input_force+sense*(speed*sim_params.dt)*0.01;
-        return Math.min(Math.abs(temp),20.0)*Math.sign(temp);
+        var temp = key_force+sense*(speed*sim_params.dt)*0.01;
+        return Math.min(Math.abs(temp),sim_params.max_force)*Math.sign(temp);
     }
     else{
-        if(Math.abs(input_force) <=0.0000001){
+        if(Math.abs(key_force) <=0.0000001){
             sense = 0.0;
             return 0.0;
         }
         else{
-            if(input_force < 0.0)
-                var temp = input_force + (speed*sim_params.dt)*0.01;
+            if(key_force < 0.0)
+                var temp = key_force + (speed*sim_params.dt)*0.01;
             else
-                var temp = input_force - (speed*sim_params.dt)*0.01;
+                var temp = key_force - (speed*sim_params.dt)*0.01;
             return temp;
         }
 
@@ -146,34 +154,61 @@ function assistKey(){
   
 }
 ////////////////////////////////////////////////
-var error = 0.0;
-var last_u_signal  = 0.0;
-var last_error = 0.0;
-var u_signal = 0.0;
+var ctr_theta = {error:0.0,l_error:0.0,sum_error:0.0,u_signal:0.0,l_u_signal:0.0,Kc:1.2,Kd:0.550,Ki:0.25}
+var ctr_x_dot = {error:0.0,l_error:0.0,sum_error:0.0,u_signal:0.0,l_u_signal:0.0,Kc:0.015,Kd:0.0215,Ki:0.0228}
 
+//////////////////////////////////////////////////////
 function reset_PID_values(){
-    ///////////theta control variables/////
-    error_theta = 0.0;
-    last_error_theta = 0.0;
-    u_signal_theta = 0.0;
-    last_u_signal_theta = 0.0;
-    ///////////position theta////////////
-    error_x = 0.0;
-    last_error_x = 0.0;
-    u_signal_x = 0.0;
-    last_u_signal_x = 0.0; 
+    ctr_theta.error = 0.0;
+    ctr_theta.l_error = 0.0;
+    ctr_theta.l_u_signal = 0.0;
+    ctr_theta.sum_error = 0.0;
+    ctr_theta.u_signal = 0.0;
+    ctr_x_dot.error = 0.0;
+    ctr_x_dot.l_error = 0.0;
+    ctr_x_dot.l_u_signal = 0.0;
+    ctr_x_dot.sum_error = 0.0;
+    ctr_x_dot.u_signal = 0.0;
+}
 
+function constrain(val,a,b){
+    if(val>a && val<b)
+        return val;
+    else if(val<=a)
+        return a;
+    else
+    return b;
 }
 /////////////////////////////////////////////////
-function PID(set_point_theta,set_point_x,Kc =2.0,Kd = 0.0,Ki = 0.0,dt){
-    var angle = -1.0*state.theta;
-    set_point_theta = (set_point_theta*Math.PI)/180.0;
+function PID_theta(set_point,dt){
+    set_point = (set_point*Math.PI)/180.0;
     //////////Getting Errors///////////
-    error_theta = (set_point_theta - angle);
-    //////////////Getting control signals////////////////
-    u_signal = Kc*error_theta + (Kd*(error_theta - last_error_theta)/dt)*1000 + Ki*(error_theta)+last_u_signal_theta;
-    ///////////////////Up
-    last_error = error;
-    last_u_signal = u_signal;
-    return Math.min(25,Math.abs(u_signal))*Math.sign(u_signal);
-    }
+    ctr_theta.error = (state.theta - set_point);
+   
+    var P = ctr_theta.Kc*ctr_theta.error;
+    var D = ctr_theta.Kd*((ctr_theta.error - ctr_theta.l_error)/dt)*1000;
+    var I = ctr_theta.Ki*ctr_theta.error + ctr_theta.l_u_signal;
+    ctr_theta.u_signal = P + D + I;
+
+    ctr_theta.u_signal = constrain(ctr_theta.u_signal,-sim_params.max_force,sim_params.max_force);
+    ctr_theta.l_error = ctr_theta.error;
+    ctr_theta.l_u_signal = ctr_theta.u_signal;
+    ctr_theta.sum_error +=ctr_theta.error;
+    return ctr_theta.u_signal;
+}
+function PID_x_dot(set_point,dt){
+    ctr_x_dot.error = (set_point-state.x_dot);
+    if(Math.abs(ctr_x_dot.error)<=0.05)
+        return 0.0;
+    var P = ctr_x_dot.Kc*ctr_x_dot.error;
+    var D  = ctr_x_dot.Kd*((ctr_x_dot.error - ctr_x_dot.l_error)/dt)*1000;
+    var I = ctr_x_dot.Ki*ctr_x_dot.error + ctr_x_dot.l_u_signal;
+    ctr_x_dot.u_signal = P+I+D;
+
+    ctr_x_dot.u_signal = constrain(ctr_x_dot.u_signal,-30,30);
+    ctr_x_dot.l_error = ctr_x_dot.error;
+    ctr_x_dot.l_u_signal = ctr_x_dot.u_signal;
+    ctr_x_dot.sum_error+=ctr_x_dot.error;
+    return ctr_x_dot.u_signal; 
+    
+}

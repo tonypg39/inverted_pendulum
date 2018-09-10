@@ -18,6 +18,11 @@ body{
     width: 100px;    
     background-color: #116011;
 }
+#mode{
+    margin-left: 28px;    
+    width: 100px;    
+    background-color:#1155FF;
+}
 #increment{
     margin-left: 10px;
     width: 40px;
@@ -63,7 +68,9 @@ body{
 #model-equation{
     width: 30px;
 }
-
+#enter-adjust{
+    margin-left: 38px;
+}
 .op-btn{
     margin-left: 58px;
     margin-top: 5px;    
