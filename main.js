@@ -116,6 +116,7 @@ function select_modes() {
         $("#mode").html("manual");
         id_modes = 0;
     }
+    initialization();
 }
 
 function start_stop() {
