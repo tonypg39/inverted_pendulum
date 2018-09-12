@@ -49,8 +49,8 @@ function draw_markers() {
     ctx.font = "15px serif";
     ctx.fillStyle = "#aa99aa";
     var t_n = c_m.toFixed(0);
-    ctx.fillText(t_n, c_px, mky + 10
-        * mkw);
+    ctx.fillText(t_n, c_px, mky + 13 *
+        mkw);
     while (c_px > 0) {
         if (c_m == 0) {
             ctx.fillStyle = "#aa2222";
@@ -64,18 +64,12 @@ function draw_markers() {
         ctx.font = "15px serif";
         ctx.fillStyle = "#aa99aa";
         var t_n = c_m.toFixed(0);
-        ctx.fillText(t_n, c_px, mky + 10 * mkw);
+        ctx.fillText(t_n, c_px, mky + 13 * mkw);
     }
 
     // Right direction markers    
     c_m = parseInt(state.x) + 1;
     disp_nx = c_m - state.x;
-    //draw the numbers
-    ctx.font = "15px serif";
-    ctx.fillStyle = "#aa99aa";
-    var t_n = c_m.toFixed(0);
-    ctx.fillText(t_n, c_px, mky + 10
-        * mkw);
 
     c_px = obtain_x_px() + disp_nx * geo_params.pix_per_m;
     while (c_px < cv_width) {
@@ -89,8 +83,8 @@ function draw_markers() {
         ctx.font = "15px serif";
         ctx.fillStyle = "#aa99aa";
         var t_n = c_m.toFixed(0);
-        ctx.fillText(t_n, c_px, mky + 10
-             * mkw);
+        ctx.fillText(t_n, c_px, mky + 13 *
+            mkw);
         c_px += geo_params.pix_per_m;
         c_m += 1;
     }
@@ -113,7 +107,7 @@ function draw_cart() {
     var h_cart = geo_params.h_cart * geo_params.pix_per_m;
     var wheel_rad = sim_params.wheel_rad * geo_params.pix_per_m;
     var fl_h = geo_params.floor_height * geo_params.pix_per_m;
-    ctx.fillStyle = '#121255';
+    ctx.fillStyle = '#113333';
     start_x_cart = x_cv - w_cart / 2;
     start_y_cart = parseInt(cv_height - fl_h - wheel_rad - h_cart);
     ctx.fillRect(start_x_cart, start_y_cart, w_cart, h_cart);
@@ -224,7 +218,7 @@ function draw_pendulum() {
         cy = stp_y - vecp_y;
 
     ctx.beginPath();
-    ctx.fillStyle = "#121255"; // pendulum primary color
+    ctx.fillStyle = "#113333"; // pendulum primary color
     ctx.arc(cx, cy, pend_radius, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
     ctx.fill();
     ctx.closePath();
