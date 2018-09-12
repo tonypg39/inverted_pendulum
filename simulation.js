@@ -18,7 +18,6 @@ function dynamical_loop() {
         simulate();
     }
 }
-
 function addNoise(k, sig = true, value) {
     var sentido = 1.0;
     if (sig) {
@@ -208,7 +207,6 @@ function PID_theta(set_point, dt) {
     ctr_theta.sum_error += ctr_theta.error;
     return ctr_theta.u_signal;
 }
-
 function PID_x_dot(set_point, dt) {
     ctr_x_dot.error = (set_point - state.x_dot);
     if (Math.abs(ctr_x_dot.error) <= 0.05)

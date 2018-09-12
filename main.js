@@ -52,6 +52,8 @@ function update_state() {
     if (running) {
         state.F = input_force + key_force;
         sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
+        if(isNaN(sim_params.vel_setpoint))
+            sim_params.vel_setpoint = 0.0;
     } else {
         state.theta = ((parseFloat($("#input_theta").val())) * Math.PI) / 180.0;
         sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
