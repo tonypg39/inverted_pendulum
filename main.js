@@ -24,8 +24,14 @@ var sim_params = {
     time_up: 0.00,
     best_score: 0.00,
     wind_friction: 0.5,
-    vel_setpoint: 0.0,
     max_force: 20.0
+}
+
+var set_point={
+    theta:0.0,
+    theta_dot:0.0,
+    x:0.0,
+    x_dot:0.0
 }
 
 var state = {
@@ -51,16 +57,16 @@ function initialize() {
 function update_state() {
     if (running) {
         state.F = input_force + key_force;
-        sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
-        if(isNaN(sim_params.vel_setpoint))
-            sim_params.vel_setpoint = 0.0;
+        set_point.x_dot = parseFloat($("#input_velocity").val());
+        if(isNaN(set_point.x_dot))
+            set_point.x_dot = 0.0;
     } else {
         state.theta = ((parseFloat($("#input_theta").val())) * Math.PI) / 180.0;
-        sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
+        set_point.x_dot= parseFloat($("#input_velocity").val());
         if (isNaN(state.theta))
             state.theta = 0.0;
-        if (isNaN(sim_params.vel_setpoint))
-            sim_params.vel_setpoint = 0.0;
+        if (isNaN(set_point.x_dot))
+            set_point.x_dot = 0.0;
         input_force = 0.0;
         reset_PID_values();
         state.F = input_force + key_force;
@@ -93,18 +99,22 @@ function enterNewParameters() {
 }
 
 function select_modes() {
-    if (control_source == "manual") {
+    if (modes[id_modes] == "manual") {
         $("#mode").css("background-color", "#222222");
-        $("#mode").html("pid");
-        control_source = "pid";
-    } else if (control_source == "pid") {
+        $("#mode").html("pid_theta");
+        id_modes = 1;
+    } else if (modes[id_modes] == "pid_theta") {
         $("#mode").css("background-color", "#121212");
+        $("#mode").html("pid_cascade");
+        id_modes = 2;
+    } else if(modes[id_modes] =="pid_cascade"){
+        $("#mode").css("background-color", "#11888");
         $("#mode").html("agent");
-        control_source = "agent";
-    } else {
+        id_modes = 3;
+    }else{
         $("#mode").css("background-color", "#888888");
         $("#mode").html("manual");
-        control_source = "manual";
+        id_modes = 0;
     }
 }
 
