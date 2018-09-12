@@ -27,7 +27,7 @@
                 Your browser does not support Canvas. Please, update it.
             </canvas>
             </div>
-            <div class="col-md-3" id ="system_state" size = "size">           
+            <div class="col-md-3" id ="system_state">           
                 <div class="form-group">
                     <label id = "Fx_label">Fx:</label>
                     <label id = "input_force">0.0</label>
@@ -40,25 +40,16 @@
                     <input type = "number" class  = "from-control sim-params" id = "input_theta" size = "2" placeholder = "0.0">
                      °
                     <br>
-                    Mc:
-                    <input type = "number" class  = "from-control sim-params" id = "Mc_input" size = "2" placeholder = "0.0">
-                    Kg
+                    v :
+                    <input type= "number" class="from-control sim-params" id="input_velocity"></input:num>
+                    [m/s]
                     <br>
-                    mp
-                    <input type = "number" class  = "from-control sim-params" id = "input_theta" max = "100"  placeholder = "0.0" width="10">
-                    Kg
-                    <br>
-                    wf
-                    <input type = "number" class  = "from-control sim-params" id = "input_theta" size = "2" placeholder = "0.0">
-                     °
-                    <br><br>
-                    <button class="btn op-btn" id="enter-adjust" > OK </button>
+                    <button class="btn btn-default op-btn" id="enter-adjust"> OK </button>
                 </div>
                 <button id="start_btn" class="btn btn-primary">Start</button>
                 <button id="mode" class="btn btn-primary">manual</button>
                 
-                <br>
-                <button id="adjust" class="btn btn-default op-btn">Adjust</button>
+                <br>                
                 <div class="form-group display-state">
                     <label> <i> Displacement </i> [x]:  </label>
                     <label id = "x">0.0</label>
@@ -72,6 +63,8 @@
                     <label> <i> Pendulum rotation</i> : [&omega;] </label>
                     <label id = "theta_dot">0.0</label>
                 </div>
+
+                <button id="adjust" class="btn btn-default op-btn btn-primary">Adjust</button>
             </div>
         </div>
     </div>

@@ -7,12 +7,12 @@ function dynamical_loop() {
     update_state();
     key_force = assistKey();
     if (running) {
-        if (control_source == "pid")
-            input_force = PID_theta(PID_x_dot(0.0, 10), 10);
-        //else if (control_source == "agent");
-        else if (control_source == "manual") {
+        if (control_source == "pid") {
+            input_force = PID_theta(PID_x_dot(sim_params.vel_setpoint, 10), 10);
+            console.log(sim_params.vel_setpoint);
         }
-        else {
+        //else if (control_source == "agent");
+        else if (control_source == "manual") {} else {
             input_force = 0.0;
         }
         simulate();
@@ -47,7 +47,7 @@ function simulate() {
     var k = sim_params.ground_friction;
     var ft = sim_params.friction;
     var u = sim_params.wind_friction;
-    F = (F + -1.0 * (k * l_x_d))//+addNoise(sim_params.wind_friction,true,0.75);
+    F = (F + -1.0 * (k * l_x_d)) //+addNoise(sim_params.wind_friction,true,0.75);
 
     var numA1 = -1.0 * m * g * Math.sin(l_theta) * Math.cos(l_theta);
     var numA2 = m * l * Math.pow(l_theta_d, 2) * Math.sin(l_theta);
@@ -68,8 +68,7 @@ function simulate() {
     /////////////////////////////////////////////////////////
     if (Math.abs(new_theta) <= Math.PI / 2.0) {
         sim_params.time_up += dt / 1000;
-    }
-    else {
+    } else {
         sim_params.best_score = Math.max(sim_params.time_up, sim_params.best_score);
     }
     state.x = new_x;
@@ -92,36 +91,33 @@ function is_atendible() {
 }
 
 const KeyUp = (event) => {
-    if (event.which == 37 && keys[event.which - base]) {
+    if ((event.which == 37) && keys[event.which - base]) {
         keys[event.which - base] = false;
         sense = 0;
         $("#decrement").css("background-color", "#1590FF");
-    }
-    else if (event.which == 39 && keys[event.which - base]) {
+    } else if ((event.which == 39) && keys[event.which - base]) {
         keys[event.which - base] = false;
         sense = 0;
         $("#increment").css("background-color", "#1590FF");
-    }
-    else {
+    } else {
         sense = sense;
     }
 }
 
 const KeyDown = (event) => {
+    //alert(event.which);    
     if (is_atendible()) {
         if (event.which == 37) {
             sense = -1;
             keys[event.which - base] = true;
-            $("#decrement").css("background-color", "#FC1201");
+            $("#decrement").css("background-color", "#CC1201");
             running = true;
-        }
-        else if (event.which == 39) {
+        } else if (event.which == 39) {
             sense = 1;
             keys[event.which - base] = true;
-            $("#increment").css("background-color", "#FC1201");
+            $("#increment").css("background-color", "#CC1201");
             running = true;
-        }
-        else {
+        } else {
             sense = 0;
         }
     }
@@ -136,26 +132,41 @@ function assistKey() {
     if (is_atendible() == false) {
         var temp = key_force + sense * (speed * sim_params.dt) * 0.01;
         return Math.min(Math.abs(temp), sim_params.max_force) * Math.sign(temp);
-    }
-    else {
+    } else {
         if (Math.abs(key_force) <= 0.0000001) {
             sense = 0.0;
             return 0.0;
-        }
-        else {
+        } else {
             if (key_force < 0.0)
                 var temp = key_force + (speed * sim_params.dt) * 0.01;
             else
                 var temp = key_force - (speed * sim_params.dt) * 0.01;
             return temp;
         }
-
     }
 
 }
 ////////////////////////////////////////////////
-var ctr_theta = { error: 0.0, l_error: 0.0, sum_error: 0.0, u_signal: 0.0, l_u_signal: 0.0, Kc: 1.2, Kd: 0.550, Ki: 0.25 }
-var ctr_x_dot = { error: 0.0, l_error: 0.0, sum_error: 0.0, u_signal: 0.0, l_u_signal: 0.0, Kc: 0.015, Kd: 0.0215, Ki: 0.0228 }
+var ctr_theta = {
+    error: 0.0,
+    l_error: 0.0,
+    sum_error: 0.0,
+    u_signal: 0.0,
+    l_u_signal: 0.0,
+    Kc: 1.2,  // 1.2
+    Kd: 0.580, // 0.55
+    Ki: 0.25// 0.25
+}
+var ctr_x_dot = {
+    error: 0.0,
+    l_error: 0.0,
+    sum_error: 0.0,
+    u_signal: 0.0,
+    l_u_signal: 0.0,
+    Kc: 0.015,
+    Kd: 0.0215,
+    Ki: 0.0228
+}
 
 //////////////////////////////////////////////////////
 function reset_PID_values() {

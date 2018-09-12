@@ -4,59 +4,64 @@ var cv_height = 500;
 //meters
 var running = false;
 var geo_params = {
-    w_cart: 0.43, 
-    h_cart: 0.15,  
-    floor_height: 0.55, 
-    pix_per_m : 275,
-    pend_radius: 0.065,    
-    offset_x : 2.0,
-    dt_draw : 20
+    w_cart: 0.43,
+    h_cart: 0.15,
+    floor_height: 0.55,
+    pix_per_m: 275,
+    pend_radius: 0.065,
+    offset_x: 2.0,
+    dt_draw: 20
 }
 
 var sim_params = {
     L: 0.30, // m
     wheel_rad: 0.045, // m
     m_cart: 2.0, // kg
-    m_pend: 0.090,  // kg
-    dt: 10,  // ms
+    m_pend: 0.090, // kg
+    dt: 10, // ms
     friction: 1.5,
     ground_friction: 4.8,
-    time_up:0.00,
-    best_score:0.00,
-    wind_friction:0.5,
-    max_force:20.0
+    time_up: 0.00,
+    best_score: 0.00,
+    wind_friction: 0.5,
+    vel_setpoint: 0.0,
+    max_force: 20.0
 }
 
 var state = {
     x: 0.0,
-    x_dot : 0.0,
-    theta : 0.0,
-    theta_dot : 0.0,
+    x_dot: 0.0,
+    theta: 0.0,
+    theta_dot: 0.0,
     F: 0.0,
-    beta_wheel:(Math.PI / 180) * 30
+    beta_wheel: (Math.PI / 180) * 30
 }
 
 function initialize() {
-    id_draw = setInterval(draw,geo_params.dt_draw);
+    id_draw = setInterval(draw, geo_params.dt_draw);
     $(".sim-params").hide();
-    dynamical_loop();           
+    dynamical_loop();
     ///////////////////Event asosiate with clicks/////////////
     $("#start_btn").click(start_stop);
     $("#mode").click(select_modes);
     $("#adjust").click(adjustParameters);
     $("#enter-adjust").click(enterNewParameters);
 }
-function update_state(){
-    if(running){ 
+
+function update_state() {
+    if (running) {
         state.F = input_force + key_force;
-    }
-    else{ 
-        state.theta = ( (parseFloat($("#input_theta").val()))*Math.PI )/180.0;
-        if(isNaN(state.theta))
+        sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
+    } else {
+        state.theta = ((parseFloat($("#input_theta").val())) * Math.PI) / 180.0;
+        sim_params.vel_setpoint = parseFloat($("#input_velocity").val());
+        if (isNaN(state.theta))
             state.theta = 0.0;
+        if (isNaN(sim_params.vel_setpoint))
+            sim_params.vel_setpoint = 0.0;
         input_force = 0.0;
         reset_PID_values();
-        state.F = input_force+key_force;
+        state.F = input_force + key_force;
         state.x = 0.0;
         state.x_dot = 0.0;
         state.theta_dot = 0.0;
@@ -66,9 +71,10 @@ function update_state(){
     }
     show_state();
 }
-function show_state(){
+
+function show_state() {
     /////////////PUll it all in the HTML////////////
-    var a = (parseFloat(state.theta)*180.0)/Math.PI;
+    var a = (parseFloat(state.theta) * 180.0) / Math.PI;
     $("#theta").html(a.toFixed(3));
     $("#theta_dot").html(parseFloat(state.theta_dot).toFixed(3));
     $("#x").html(parseFloat(state.x).toFixed(3));
@@ -83,30 +89,29 @@ function adjustParameters() {
 function enterNewParameters() {
     $(".sim-params").hide();
 }
-function select_modes(){
-    if(control_source == "manual"){
-        $("#mode").css("background-color", "#A21101");
+
+function select_modes() {
+    if (control_source == "manual") {
+        $("#mode").css("background-color", "#222222");
         $("#mode").html("pid");
         control_source = "pid";
-    }
-    else if(control_source =="pid"){
-        $("#mode").css("background-color", "#120011");
+    } else if (control_source == "pid") {
+        $("#mode").css("background-color", "#121212");
         $("#mode").html("agent");
         control_source = "agent";
-    }
-    else{
-        $("#mode").css("background-color", "#1160FF");
+    } else {
+        $("#mode").css("background-color", "#888888");
         $("#mode").html("manual");
         control_source = "manual";
     }
 }
-function start_stop(){            
+
+function start_stop() {
     if (running) {
         $("#start_btn").css("background-color", "#116011");
-        $("#start_btn").html("Start");               
+        $("#start_btn").html("Start");
         running = false;
-    }
-    else {
+    } else {
         $("#start_btn").css("background-color", "#991111");
         $("#start_btn").html("Stop");
         running = true;
