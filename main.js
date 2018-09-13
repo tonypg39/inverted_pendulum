@@ -52,6 +52,7 @@ function initialize() {
     $("#mode").click(select_modes);
     $("#adjust").click(adjustParameters);
     $("#enter-adjust").click(enterNewParameters);
+    tryConnection();
 }
 
 function update_state() {
