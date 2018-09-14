@@ -8,16 +8,8 @@ function dynamical_loop() {
     update_state();
     key_force = assistKey();
     if (running) {
-        if (modes[id_modes] == "manual") {}
-        else if (modes[id_modes] == "pid_theta") {
-            input_force = PID_theta(set_point.x_dot,10);
-        }
-        else if(modes[id_modes]=="pid_cascade"){
-            input_force = PID_theta(PID_x_dot(set_point.x_dot, 10),10);
-        }
-         else {
-            input_force = 0.0;
-        }
+        send_state();
+        get_force();
         simulate();
     }
 }

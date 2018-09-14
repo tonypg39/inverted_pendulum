@@ -130,4 +130,5 @@ function start_stop() {
         $("#start_btn").html("Stop");
         running = true;
     }
+    initialization();
 }
