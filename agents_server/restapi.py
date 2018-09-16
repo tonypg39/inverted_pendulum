@@ -17,8 +17,8 @@ sim_params = dict()
 set_point  = dict()
 mode = 'manual'
 # ////////////////////////////////////////
-pid_theta = PID_theta(1.2,0.25,0.580,0.0)
-pid_x_dot  = PID_x_dot(0.015,0.0228,0.0215,0.0)
+pid_theta = PID_theta(0.975,0.2125,0.500,1e-10,controllerParams())
+pid_x_dot  = PID_x_dot(0.015,0.0128,0.0215,0.01,controllerParams())
 
 @app.route("/get_force", methods=['GET'])
 def force():
@@ -29,12 +29,10 @@ def force():
         pid_theta.restart()
         pid_x_dot.restart()
     elif mode == 'pid_theta':
-        response['F'] = pid_theta.getSignalControl(0.0,pend_state['theta'],sim_params['dt'],sim_params['max_force'])
+        response['F'] = pid_theta.getSignalControl(float(set_point['theta']),float(pend_state['theta']),float(sim_params['dt']),float(sim_params['max_force']))
     elif mode == 'pid_cascade':
-        setpoint_theta = pid_x_dot.getSignalControl(set_point['x_dot'],pend_state['x_dot'],sim_params['dt'],sim_params['max_force'])
-        print(setpoint_theta)
-        response['F'] = pid_theta.getSignalControl(0.0,pend_state['theta'],sim_params['dt'],sim_params['max_force'])
-        #response['F'] = pid_x_dot.getSignalControl(set_point['x_dot'],pend_state['x_dot'],10,20)
+        temp = pid_x_dot.getSignalControl(float(set_point['x_dot']),float(pend_state['x_dot']),float(sim_params['dt']),float(sim_params['max_force']))
+        response['F'] = pid_theta.getSignalControl(temp,float(pend_state['theta']),float(sim_params['dt']),float(sim_params['max_force']))
     else:
         response['F'] = 0.0
     return jsonify(response)

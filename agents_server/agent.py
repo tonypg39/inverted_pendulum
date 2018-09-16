@@ -15,7 +15,7 @@ class controllerParams():
         self.l_u_signal = 0.0
 
 class Pid():
-    def __init__(self, Kc=1.2, Ki=0.25, Kd=0.580,threshold = 0.0,contParams=controllerParams()):
+    def __init__(self, Kc, Ki, Kd,threshold = 0.0,contParams=controllerParams()):
         self.Kc = Kc
         self.Ki = Ki
         self.Kd = Kd
@@ -42,15 +42,13 @@ class Pid():
 
     def getOutput(self, setpoint,variable,dt,max_usignal):
         self.contParams.error = (setpoint-variable)
-        
-        if(abs(self.contParams.error)<=self.threshold ):
-            self.output = 0.0
-            return self.output
         P = self.Kc*(self.contParams.error)
         I = self.Ki*(self.contParams.error)+self.contParams.l_u_signal
-        D = self.Kd*(((self.contParams.error - self.contParams.l_error)/(dt))*1000)
+        D = self.Kd*((self.contParams.error - self.contParams.l_error)/(dt*0.001))
+        if(abs(self.contParams.error)<=self.threshold):
+            return 0.0
         self.output = P + I + D
-        self.output = self.constrain(-1*max_usignal,max_usignal,self.output)
+        self.output = self.constrain(-1.0*max_usignal,max_usignal,self.output)
         self.contParams.l_error = self.contParams.error
         self.contParams.sum_error+=self.contParams.error
         self.contParams.l_u_signal = self.output

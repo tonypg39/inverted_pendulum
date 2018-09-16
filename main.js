@@ -10,7 +10,7 @@ var geo_params = {
     pix_per_m: 275,
     pend_radius: 0.065,
     offset_x: 2.0,
-    dt_draw: 20
+    dt_draw: 5
 }
 
 var sim_params = {

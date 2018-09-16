@@ -8,8 +8,10 @@ function dynamical_loop() {
     update_state();
     key_force = assistKey();
     if (running) {
-        send_state();
-        get_force();
+        if(modes[id_modes]!= "manual"){
+            send_state();
+            get_force();
+        }
         simulate();
     }
 }
