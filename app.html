@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,8 +12,9 @@
     <script src="simulation.js"></script>
     <script src="drawings.js"></script>
     <script src="connection.js"></script>
-    <script src="main.js"></script>     
+    <script src="main.js"></script>
 </head>
+
 <body onkeydown="KeyDown(event)" onkeyup="KeyUp(event)" onload="initialize()">
     <div class="container-fluid">
         <div class="row">
@@ -22,47 +24,47 @@
                 </h1>
             </div>
         </div>
-        <div class="row canvas-row">            
+        <div class="row canvas-row">
             <div class="col-md-8 canvas-div">
-                <canvas id = "sim_environment" width="850" height="500">                
-                Your browser does not support Canvas. Please, update it.
-            </canvas>
+                <canvas id="sim_environment" width="850" height="500">
+                    Your browser does not support Canvas. Please, update it.
+                </canvas>
             </div>
-            <div class="col-md-3" id ="system_state">           
+            <div class="col-md-3" id="system_state">
                 <div class="form-group">
-                    <label id = "Fx_label">Fx:</label>
-                    <label id = "input_force">0.0</label>
-                    <label id ="ms_label">N</label>
-                    <button id ="decrement" class="btn btn-primary" >&larr; </button>
-                    <button id ="increment" class="btn btn-primary" >&rarr; </button>
+                    <label id="Fx_label">Fx:</label>
+                    <label id="input_force">0.0</label>
+                    <label id="ms_label">N</label>
+                    <button id="decrement" class="btn btn-primary">&larr; </button>
+                    <button id="increment" class="btn btn-primary">&rarr; </button>
                 </div>
                 <div class="form-group sim-params">
-                     &theta; :
-                    <input type = "number" class  = "from-control sim-params" id = "input_theta" size = "2" placeholder = "0.0">
-                     °
+                    &theta; :
+                    <input type="number" class="from-control sim-params" id="input_theta" size="2" placeholder="0.0">
+                    °
                     <br>
                     v :
-                    <input type= "number" class="from-control sim-params" id="input_velocity"></input:num>
+                    <input type="number" class="from-control sim-params" id="input_velocity"></input:num>
                     [m/s]
                     <br>
                     <button class="btn btn-default op-btn" id="enter-adjust"> OK </button>
                 </div>
                 <button id="start_btn" class="btn btn-primary">Start</button>
                 <button id="mode" class="btn btn-primary">manual</button>
-                
-                <br>                
+
+                <br>
                 <div class="form-group display-state">
-                    <label> <i> Displacement </i> [x]:  </label>
-                    <label id = "x">0.0</label>
+                    <label> <i> Displacement </i> [x]: </label>
+                    <label id="x">0.0</label>
                     <br>
                     <label> <i> Velocity: </i> [v]</label>
-                    <label id = "x_dot">0.0</label>
+                    <label id="x_dot">0.0</label>
                     <br>
                     <label> <i> Pendulum angle</i> : [&theta;]</label>
-                    <label id = "theta">0.0</label>
+                    <label id="theta">0.0</label>
                     <br>
                     <label> <i> Pendulum rotation</i> : [&omega;] </label>
-                    <label id = "theta_dot">0.0</label>
+                    <label id="theta_dot">0.0</label>
                 </div>
 
                 <button id="adjust" class="btn btn-default op-btn btn-primary">Adjust</button>
@@ -73,4 +75,5 @@
         </div>
     </div>
 </body>
+
 </html>
