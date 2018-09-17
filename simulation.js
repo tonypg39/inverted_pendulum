@@ -1,23 +1,21 @@
 var input_force = 0.0;
 var key_force = 0.0;
-var control_source = "manual";
+var modes = ["manual","pid_theta","pid_cascade","agent_reinf"];
+var id_modes = 0;
 
 function dynamical_loop() {
     window.setTimeout(dynamical_loop, sim_params.dt);
     update_state();
     key_force = assistKey();
     if (running) {
-        if (control_source == "pid") {
-            input_force = PID_theta(PID_x_dot(sim_params.vel_setpoint, 10), 10);
-            console.log(sim_params.vel_setpoint);
-        }
-        //else if (control_source == "agent");
-        else if (control_source == "manual") {} else {
-            input_force = 0.0;
+        if(modes[id_modes]!= "manual"){
+            send_state();
+            get_force();
         }
         simulate();
     }
 }
+
 function addNoise(k, sig = true, value) {
     var sentido = 1.0;
     if (sig) {
@@ -209,7 +207,7 @@ function PID_theta(set_point, dt) {
 }
 function PID_x_dot(set_point, dt) {
     ctr_x_dot.error = (set_point - state.x_dot);
-    if (Math.abs(ctr_x_dot.error) <= 0.05)
+    if (Math.abs(ctr_x_dot.error) <= 0.01)
         return 0.0;
     var P = ctr_x_dot.Kc * ctr_x_dot.error;
     var D = ctr_x_dot.Kd * ((ctr_x_dot.error - ctr_x_dot.l_error) / dt) * 1000;
