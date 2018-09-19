@@ -9,7 +9,7 @@ CORS(app)
 
 @app.route("/", methods=['GET'])
 def index():
-    return "Lola"
+    return "Inverted Pendulum"
 
 # ///////////////////////////////////////////
 pend_state = dict()
