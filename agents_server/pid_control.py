@@ -42,6 +42,7 @@ class PID():
 
     def getOutput(self, setpoint, variable, dt, max_usignal):
         self.contParams.error = (setpoint-variable)
+        # print(("Error : %f") % (self.contParams.error))
         P = self.Kc*(self.contParams.error)
         I = self.Ki*(self.contParams.error)+self.contParams.l_u_signal
         D = self.Kd*((self.contParams.error -
@@ -54,7 +55,7 @@ class PID():
         self.contParams.l_error = self.contParams.error
         self.contParams.sum_error += self.contParams.error
         self.contParams.l_u_signal = output
-        return self.output
+        return output
 
 
 class PID_ThetaAgent(Agent):
@@ -66,9 +67,9 @@ class PID_ThetaAgent(Agent):
         if init_params is not None:
             self.params = init_params
         else:
-            self.params = self.default_params()        
+            self.params = self.default_params()
         self.PID = PID(self.params['Kc'], self.params['Ki'],
-                       self.params['Kd'], self.params['threshold'])
+                       self.params['Kd'], self.params['threshold'], controllerParams())
         self.env_params = env_params
 
     def reset(self):
@@ -76,21 +77,24 @@ class PID_ThetaAgent(Agent):
 
     def default_params(self):
         return {
-            'Kc': 0.1,
-            'Ki': 0.2,
-            'Kd': 0.05,
-            'threshold': 0.1
+            'Kc': 0.975,
+            'Ki': 0.2125,
+            'Kd': 0.5,
+            'threshold': 1e-10
         }
 
     def act(self, current_state, setpoint):
         """
         Defines how the PID agent returns the force
         """
-        state_theta = mt.radians(current_state['theta'])
+        state_theta = current_state['theta']
         setpoint = mt.radians(setpoint['theta'])
         u = self.PID.getOutput(
             state_theta, setpoint, self.env_params['dt'], self.env_params['max_u_signal'])
         return u
+
+    def reset(self):
+        pass
 
 
 class PID_CascadeAgent(Agent):
@@ -106,21 +110,21 @@ class PID_CascadeAgent(Agent):
             self.params = self.default_params()
 
         self.PID_x_dot = PID(
-            self.params['v_Kc'], self.params['v_Ki'], self.params['v_Kd'], self.params['v_threshold'])
+            self.params['v_Kc'], self.params['v_Ki'], self.params['v_Kd'], self.params['v_threshold'], controllerParams())
         self.PID_theta = PID(
-            self.params['t_Kc'], self.params['t_Ki'], self.params['t_Kd'], self.params['t_threshold'])
+            self.params['t_Kc'], self.params['t_Ki'], self.params['t_Kd'], self.params['t_threshold'], controllerParams())
         self.env_params = env_params
 
     def default_params(self):
         return {
-            'v_Kc': 0.1,
-            'v_Ki': 0.2,
-            'v_Kd': 0.05,
-            'v_threshold': 0.1,
-            't_Kc': 0.1,
-            't_Ki': 0.2,
-            't_Kd': 0.05,
-            't_threshold': 0.1
+            'v_Kc': 0.015,
+            'v_Ki': 0.0128,
+            'v_Kd': 0.0215,
+            'v_threshold': 0.01,
+            't_Kc': 0.975,
+            't_Ki': 0.2125,
+            't_Kd': 0.5,
+            't_threshold': 1e-10
         }
 
     def act(self, current_state, setpoint):
@@ -128,11 +132,19 @@ class PID_CascadeAgent(Agent):
         Defines how the PID agent returns the force
         """
         state_v = current_state['x_dot']
-        state_theta = mt.radians(current_state['theta'])
+        state_theta =current_state['theta']
         setpoint_v = setpoint['x_dot']
-        setpoint_theta = PID_x_dot.getSignalControl(
+        # print(("Setpoint %f , Variable %f") % (setpoint_v, state_v))
+        setpoint_theta = self.PID_x_dot.getOutput(
             setpoint_v, state_v, self.env_params['dt'], self.env_params['max_u_signal'])
 
-        u = PID_theta.getSignalControl(
-            setpoint_theta, state_theta, self.env_params['dt'], self.env_params['max_u_signal'])
+        #print("Cascada output")
+        print(setpoint_theta)
+
+        setpoint_theta = mt.radians(setpoint_theta)
+        u = self.PID_theta.getOutput(
+            state_theta, setpoint_theta, self.env_params['dt'], self.env_params['max_u_signal'])
         return u
+
+    def reset(self):
+        pass

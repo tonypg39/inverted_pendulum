@@ -21,6 +21,7 @@ class RL_TabAgent(Agent):
         self.q_table = self.create_q_table()
         self.last_s = .0
         self.last_a = 0
+        self.env_params = env_params
 
     def default_params(self):
         params = {
@@ -42,7 +43,7 @@ class RL_TabAgent(Agent):
         """ Update the Q-Table based on the last action and state"""
         s = self.last_s  # Refers only to theta
         a = self.last_a  # Refers only the last action taken
-        s_p = state['theta']
+        s_p = self.map_state(state['theta'])
 
         # Update the q-table based on the Bellman Equation
         r = self.reward_func(state)
@@ -59,4 +60,12 @@ class RL_TabAgent(Agent):
 
         self.last_a = ac
         self.last_s = s_p
-        return ac
+        u = self.map_force(ac)
+        return u
+
+    def map_state(self, angle):
+        s = (90 - state['theta'] + 360) % 360
+        return s
+
+    def map_force(self, action):
+        return self.actions[action]*self.env_params['max_u_signal']

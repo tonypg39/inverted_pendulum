@@ -1,6 +1,6 @@
 var input_force = 0.0;
 var key_force = 0.0;
-var modes = ["manual","pid_theta","pid_cascade","agent_reinf"];
+var modes = ["manual","pid_theta","pid_cascade","rl_tab"];
 var id_modes = 0;
 
 function dynamical_loop() {
@@ -129,7 +129,7 @@ function assistKey() {
     var speed = 10.0;
     if (is_atendible() == false) {
         var temp = key_force + sense * (speed * sim_params.dt) * 0.01;
-        return Math.min(Math.abs(temp), sim_params.max_force) * Math.sign(temp);
+        return Math.min(Math.abs(temp), sim_params.max_u_signal) * Math.sign(temp);
     } else {
         if (Math.abs(key_force) <= 0.0000001) {
             sense = 0.0;
@@ -199,7 +199,7 @@ function PID_theta(set_point, dt) {
     var I = ctr_theta.Ki * ctr_theta.error + ctr_theta.l_u_signal;
     ctr_theta.u_signal = P + D + I;
 
-    ctr_theta.u_signal = constrain(ctr_theta.u_signal, -sim_params.max_force, sim_params.max_force);
+    ctr_theta.u_signal = constrain(ctr_theta.u_signal, -sim_params.max_u_signal, sim_params.max_u_signal);
     ctr_theta.l_error = ctr_theta.error;
     ctr_theta.l_u_signal = ctr_theta.u_signal;
     ctr_theta.sum_error += ctr_theta.error;

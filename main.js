@@ -2,7 +2,8 @@ var cv_width = 850;
 var cv_height = 500;
 
 //meters
-var running = false;
+var running = false, state_cleared = false;
+
 var geo_params = {
     w_cart: 0.43,
     h_cart: 0.15,
@@ -20,18 +21,19 @@ var sim_params = {
     m_pend: 0.090, // kg
     dt: 10, // ms
     friction: 1.5,
+    initial_theta: -15,
     ground_friction: 4.8,
     time_up: 0.00,
     best_score: 0.00,
     wind_friction: 0.5,
-    max_force: 20.0
+    max_u_signal: 20.0
 }
 
-var set_point={
-    theta:0.0,
-    theta_dot:0.0,
-    x:0.0,
-    x_dot:0.0
+var set_point = {
+    theta: 0.0,
+    theta_dot: 0.0,
+    x: 0.0,
+    x_dot: 0.0
 }
 
 var state = {
@@ -52,31 +54,30 @@ function initialize() {
     $("#mode").click(select_modes);
     $("#adjust").click(adjustParameters);
     $("#enter-adjust").click(enterNewParameters);
-    tryConnection();
+    update_serv_parameters();
 }
 
 function update_state() {
+    console.log(input_force);
     if (running) {
         state.F = input_force + key_force;
         set_point.x_dot = parseFloat($("#input_velocity").val());
-        if(isNaN(set_point.x_dot))
-            set_point.x_dot = 0.0;
-    } else {
-        state.theta = ((parseFloat($("#input_theta").val())) * Math.PI) / 180.0;
-        set_point.x_dot= parseFloat($("#input_velocity").val());
-        if (isNaN(state.theta))
-            state.theta = 0.0;
         if (isNaN(set_point.x_dot))
             set_point.x_dot = 0.0;
+        state_cleared = false;
+    } else {        
         input_force = 0.0;
-        reset_PID_values();
-        state.F = input_force + key_force;
-        state.x = 0.0;
-        state.x_dot = 0.0;
-        state.theta_dot = 0.0;
-        state.beta_wheel = 0.0;
-        sim_params.time_up = 0.0;
-        geo_params.offset_x = 1.5;
+        state.F = input_force + key_force;        
+        if(!state_cleared){
+            state_cleared = true;
+            reset_env(sim_params.initial_theta);
+        }
+        /*
+        set_point.x_dot = parseFloat($("#input_velocity").val());        
+        if (isNaN(set_point.x_dot))
+            set_point.x_dot = 0.0;
+        input_force = 0.0;        
+        state.F = input_force + key_force;     */   
     }
     show_state();
 }
@@ -96,6 +97,13 @@ function adjustParameters() {
 }
 
 function enterNewParameters() {
+    var new_theta_init = ((parseFloat($("#input_theta").val())) * Math.PI) / 180.0;
+    if(!isNaN(new_theta_init)){
+        reset_env(new_theta_init);
+    }
+    else{
+        reset_env(0.0);
+    }
     $(".sim-params").hide();
 }
 
@@ -108,16 +116,28 @@ function select_modes() {
         $("#mode").css("background-color", "#121212");
         $("#mode").html("pid_cascade");
         id_modes = 2;
-    } else if(modes[id_modes] =="pid_cascade"){
-        $("#mode").css("background-color", "#11888");
+    } else if (modes[id_modes] == "pid_cascade") {
+        $("#mode").css("background-color", "#a8a8a8");
         $("#mode").html("agent");
         id_modes = 3;
-    }else{
+    } else {
         $("#mode").css("background-color", "#888888");
         $("#mode").html("manual");
         id_modes = 0;
     }
-    initialization();
+    switch_agent();
+}
+
+function reset_env(theta_init) {
+    // This methods restarts the environment with a 
+    // particular initial method    
+    input_force = 0.0
+    state.theta = (Math.PI / 180) * theta_init;
+    state.x = 0.0;
+    state.x_dot = 0.0;
+    state.theta_dot = 0.0;
+    state.beta_wheel = 0.0;
+    sim_params.time_up = 0.0;    
 }
 
 function start_stop() {
@@ -130,5 +150,5 @@ function start_stop() {
         $("#start_btn").html("Stop");
         running = true;
     }
-    initialization();
+    //initialization();
 }
