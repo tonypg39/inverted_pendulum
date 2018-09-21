@@ -1,5 +1,6 @@
 from pid_control import PID_ThetaAgent, PID_CascadeAgent
 from reinforcement import RL_TabAgent
+import math as mt
 
 
 class AgentHandler():
@@ -25,7 +26,7 @@ class AgentHandler():
 
     def check_terminal_state(self, current_state):
         """ Returns true if the environment is at a dead-end state"""
-        return abs(current_state['theta']) > 100
+        return abs(mt.degrees(current_state['theta'])) > 100
 
 
 if __name__ == '__main__':

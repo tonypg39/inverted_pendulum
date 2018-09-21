@@ -43,12 +43,12 @@ def force():
         'theta_init': 0.0
     }
     if active_agent != 'none':
-        response['F'] = agentsd[active_agent].act(current_state, setpoint)
-        print(current_state)  
-        print(response['F'])      
+        response['F'] = agentsd[active_agent].act(current_state, setpoint)                
+        print(agent_handler.check_terminal_state(current_state))
         if agent_handler.check_terminal_state(current_state):
             response['reset'] = True
-            response['theta_init'] = 0.0
+            response['theta_init'] = 0.0            
+        
     return jsonify(response)
 
 
