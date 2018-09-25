@@ -4,6 +4,7 @@ import time
 from flask import request, jsonify, json, url_for, send_file, abort,\
     redirect, make_response
 from agents import AgentHandler
+import numpy as np
 
 app = Flask("InvertedPendulum")
 CORS(app)
@@ -44,10 +45,10 @@ def force():
     }
     if active_agent != 'none':
         response['F'] = agentsd[active_agent].act(current_state, setpoint)                
-        print(agent_handler.check_terminal_state(current_state))
+        #print(agent_handler.check_terminal_state(current_state))
         if agent_handler.check_terminal_state(current_state):
             response['reset'] = True
-            response['theta_init'] = 0.0            
+            response['theta_init'] = -6.0 + np.random.uniform() * 12.0    
         
     return jsonify(response)
 

@@ -31,8 +31,7 @@ function draw_marker() {
     //Marker point of coordinate frame origin
     ctx.fillStyle = "#aa99aa";
     var mkx = geo_params.offset_x * geo_params.pix_per_m;
-    var mky = cv_height - 0.5 * geo_params.floor_height * geo_params.pix_per_m;
-    console.log(mky);
+    var mky = cv_height - 0.5 * geo_params.floor_height * geo_params.pix_per_m;    
     var mkw = geo_params.floor_height * 0.1 * geo_params.pix_per_m;
     ctx.fillRect(mkx, mky, mkw, mkw * 4);
 }

@@ -74,7 +74,7 @@ function simulate() {
     state.theta = new_theta;
     state.theta_dot = new_theta_d;
     state.beta_wheel = new_beta_wheel;
-
+    console.log(state);
 }
 var sense = 0;
 var keys = [false, false, false, false];

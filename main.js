@@ -21,7 +21,7 @@ var sim_params = {
     m_pend: 0.090, // kg
     dt: 10, // ms
     friction: 1.5,
-    initial_theta: -15,
+    initial_theta: 0,
     ground_friction: 4.8,
     time_up: 0.00,
     best_score: 0.00,
@@ -58,7 +58,7 @@ function initialize() {
 }
 
 function update_state() {
-    console.log(input_force);
+    //console.log(input_force);
     if (running) {
         state.F = input_force + key_force;
         set_point.x_dot = parseFloat($("#input_velocity").val());

@@ -21,7 +21,7 @@ function get_force() {
     var url = server_url + "get_force";
     $.get(url, function (data, status) {
         input_force = data.F;
-        console.log(data.F);
+        //console.log(data.F);
         if (data.reset == true) {
             reset_env(data.theta_init)
         }

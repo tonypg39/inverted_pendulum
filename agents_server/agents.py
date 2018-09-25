@@ -26,7 +26,7 @@ class AgentHandler():
 
     def check_terminal_state(self, current_state):
         """ Returns true if the environment is at a dead-end state"""
-        return abs(mt.degrees(current_state['theta'])) > 100
+        return abs(mt.degrees(current_state['theta'])) > 40
 
 
 if __name__ == '__main__':
