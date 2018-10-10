@@ -1,4 +1,4 @@
-from pid_control import PID_ThetaAgent, PID_CascadeAgent
+from pid_control import PID_ThetaAgent, PID_CascadeAgent,PID_PointTrackerAgent
 from reinforcement import RL_TabAgent
 import math as mt
 
@@ -15,6 +15,9 @@ class AgentHandler():
 
         elif agent_name == 'pid_cascade':
             return PID_CascadeAgent(self.env_params)
+        
+        elif agent_name == 'go_to_point':
+            return PID_PointTrackerAgent(self.env_params)
 
         elif agent_name == 'rl_tab':
             return RL_TabAgent(self.env_params)
