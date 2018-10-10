@@ -19,6 +19,9 @@ class Agent():
     def reset(self):
         pass
 
+    @abstractmethod
+    def set_reset_env(self):
+        raise NotImplementedError
 
 """
 class PID_theta(Pid):

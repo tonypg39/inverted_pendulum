@@ -56,6 +56,7 @@ class PID():
         self.contParams.sum_error += self.contParams.error
         self.contParams.l_u_signal = output
         return output
+        
 
 
 class PID_ThetaAgent(Agent):
@@ -94,6 +95,9 @@ class PID_ThetaAgent(Agent):
         return u
 
     def reset(self):
+        pass
+
+    def set_reset_env(self):
         pass
 
 
@@ -147,4 +151,7 @@ class PID_CascadeAgent(Agent):
         return u
 
     def reset(self):
+        pass
+
+    def set_reset_env(self):
         pass

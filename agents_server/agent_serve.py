@@ -14,6 +14,7 @@ CORS(app)
         - pid_theta [Agent acts according to a PID algorithm on theta]
         - pid_cascade [Agent acts according to a Cascaded PID controller]
         - rl_tab    [Reinforcement agent based on Q-Table Learning]
+        - rl_qnn    [Reinforcement agent based on Q-Neural Nets Learning]
 """
 
 # Agents Parameters
@@ -48,7 +49,8 @@ def force():
         #print(agent_handler.check_terminal_state(current_state))
         if agent_handler.check_terminal_state(current_state):
             response['reset'] = True
-            response['theta_init'] = -6.0 + np.random.uniform() * 12.0    
+            response['theta_init'] = -10.0 + np.random.uniform() * 20.0    
+            agentsd[active_agent].set_reset_env()
         
     return jsonify(response)
 
